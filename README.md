@@ -1,4 +1,4 @@
-# operator
+# Sample Operator
 // TODO(user): Add simple overview of use/purpose
 
 ## Description

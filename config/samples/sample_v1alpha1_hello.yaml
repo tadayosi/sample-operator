@@ -3,4 +3,4 @@ kind: Hello
 metadata:
   name: hello-sample
 spec:
-  # TODO(user): Add fields here
+  message: Hello World!

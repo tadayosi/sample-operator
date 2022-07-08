@@ -35,9 +35,8 @@ spec:
           spec:
             description: HelloSpec defines the desired state of Hello
             properties:
-              foo:
-                description: Foo is an example field of Hello. Edit hello_types.go
-                  to remove/update
+              message:
+                description: Message of Hello
                 type: string
             type: object
           status:

@@ -24,6 +24,7 @@ import (
 	"sigs.k8s.io/controller-runtime/pkg/client"
 	"sigs.k8s.io/controller-runtime/pkg/log"
 
+	"github.com/tadayosi/sample-operator/api/v1alpha1"
 	samplev1alpha1 "github.com/tadayosi/sample-operator/api/v1alpha1"
 )
 
@@ -39,17 +40,19 @@ type HelloReconciler struct {
 
 // Reconcile is part of the main kubernetes reconciliation loop which aims to
 // move the current state of the cluster closer to the desired state.
-// TODO(user): Modify the Reconcile function to compare the state specified by
-// the Hello object against the actual cluster state, and then
-// perform operations to make the cluster state reflect the state specified by
-// the user.
 //
 // For more details, check Reconcile and its Result here:
 // - https://pkg.go.dev/sigs.k8s.io/controller-runtime@v0.12.1/pkg/reconcile
 func (r *HelloReconciler) Reconcile(ctx context.Context, req ctrl.Request) (ctrl.Result, error) {
-	_ = log.FromContext(ctx)
+	logger := log.FromContext(ctx)
+	logger.Info("Reconciling...")
 
-	// TODO(user): your logic here
+	hello := &v1alpha1.Hello{}
+	if err := r.Get(ctx, req.NamespacedName, hello); err != nil {
+		return ctrl.Result{}, err
+	}
+
+	logger.Info("Message:", "message", hello.Spec.Message)
 
 	return ctrl.Result{}, nil
 }
