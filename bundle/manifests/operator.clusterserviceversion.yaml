@@ -1,0 +1,276 @@
+apiVersion: operators.coreos.com/v1alpha1
+kind: ClusterServiceVersion
+metadata:
+  annotations:
+    alm-examples: |-
+      [
+        {
+          "apiVersion": "sample.tadayosi.github.io/v1alpha1",
+          "kind": "Flow",
+          "metadata": {
+            "name": "flow-sample"
+          },
+          "spec": {
+            "dsl": {
+              "from": {
+                "parameters": {
+                  "period": "5000"
+                },
+                "steps": [
+                  {
+                    "setBody": {
+                      "expression": {
+                        "constant": {
+                          "expression": "Hello Yaml !!!"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "transform": {
+                      "expression": {
+                        "simple": {
+                          "expression": "${body.toUpperCase()}"
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "to": {
+                      "uri": "log:info"
+                    }
+                  }
+                ],
+                "uri": "timer:tick"
+              }
+            }
+          }
+        },
+        {
+          "apiVersion": "sample.tadayosi.github.io/v1alpha1",
+          "kind": "Hello",
+          "metadata": {
+            "name": "hello-sample"
+          },
+          "spec": {
+            "message": "Hello World!"
+          }
+        }
+      ]
+    capabilities: Basic Install
+    operators.operatorframework.io/builder: operator-sdk-v1.22.0
+    operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
+  name: operator.v0.0.1
+  namespace: placeholder
+spec:
+  apiservicedefinitions: {}
+  customresourcedefinitions:
+    owned:
+    - description: Flow is the Schema for the flows API
+      displayName: Flow
+      kind: Flow
+      name: flows.sample.tadayosi.github.io
+      version: v1alpha1
+    - description: Hello is the Schema for the hellos API
+      displayName: Hello
+      kind: Hello
+      name: hellos.sample.tadayosi.github.io
+      version: v1alpha1
+  description: Sample Operator
+  displayName: Sample Operator
+  icon:
+  - base64data: ""
+    mediatype: ""
+  install:
+    spec:
+      clusterPermissions:
+      - rules:
+        - apiGroups:
+          - sample.tadayosi.github.io
+          resources:
+          - flows
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - sample.tadayosi.github.io
+          resources:
+          - flows/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - sample.tadayosi.github.io
+          resources:
+          - flows/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - sample.tadayosi.github.io
+          resources:
+          - hellos
+          verbs:
+          - create
+          - delete
+          - get
+          - list
+          - patch
+          - update
+          - watch
+        - apiGroups:
+          - sample.tadayosi.github.io
+          resources:
+          - hellos/finalizers
+          verbs:
+          - update
+        - apiGroups:
+          - sample.tadayosi.github.io
+          resources:
+          - hellos/status
+          verbs:
+          - get
+          - patch
+          - update
+        - apiGroups:
+          - authentication.k8s.io
+          resources:
+          - tokenreviews
+          verbs:
+          - create
+        - apiGroups:
+          - authorization.k8s.io
+          resources:
+          - subjectaccessreviews
+          verbs:
+          - create
+        serviceAccountName: operator-controller-manager
+      deployments:
+      - label:
+          control-plane: controller-manager
+        name: operator-controller-manager
+        spec:
+          replicas: 1
+          selector:
+            matchLabels:
+              control-plane: controller-manager
+          strategy: {}
+          template:
+            metadata:
+              annotations:
+                kubectl.kubernetes.io/default-container: manager
+              labels:
+                control-plane: controller-manager
+            spec:
+              containers:
+              - args:
+                - --secure-listen-address=0.0.0.0:8443
+                - --upstream=http://127.0.0.1:8080/
+                - --logtostderr=true
+                - --v=0
+                image: gcr.io/kubebuilder/kube-rbac-proxy:v0.11.0
+                name: kube-rbac-proxy
+                ports:
+                - containerPort: 8443
+                  name: https
+                  protocol: TCP
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 128Mi
+                  requests:
+                    cpu: 5m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+              - args:
+                - --health-probe-bind-address=:8081
+                - --metrics-bind-address=127.0.0.1:8080
+                - --leader-elect
+                command:
+                - /manager
+                image: quay.io/tasato/sample-operator:v0.0.1
+                livenessProbe:
+                  httpGet:
+                    path: /healthz
+                    port: 8081
+                  initialDelaySeconds: 15
+                  periodSeconds: 20
+                name: manager
+                readinessProbe:
+                  httpGet:
+                    path: /readyz
+                    port: 8081
+                  initialDelaySeconds: 5
+                  periodSeconds: 10
+                resources:
+                  limits:
+                    cpu: 500m
+                    memory: 128Mi
+                  requests:
+                    cpu: 10m
+                    memory: 64Mi
+                securityContext:
+                  allowPrivilegeEscalation: false
+              securityContext:
+                runAsNonRoot: true
+              serviceAccountName: operator-controller-manager
+              terminationGracePeriodSeconds: 10
+      permissions:
+      - rules:
+        - apiGroups:
+          - ""
+          resources:
+          - configmaps
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - coordination.k8s.io
+          resources:
+          - leases
+          verbs:
+          - get
+          - list
+          - watch
+          - create
+          - update
+          - patch
+          - delete
+        - apiGroups:
+          - ""
+          resources:
+          - events
+          verbs:
+          - create
+          - patch
+        serviceAccountName: operator-controller-manager
+    strategy: deployment
+  installModes:
+  - supported: false
+    type: OwnNamespace
+  - supported: false
+    type: SingleNamespace
+  - supported: false
+    type: MultiNamespace
+  - supported: true
+    type: AllNamespaces
+  keywords:
+  - sample
+  links:
+  - name: Operator
+    url: https://operator.domain
+  maturity: alpha
+  provider:
+    name: Tadayoshi Sato
+  version: 0.0.1
