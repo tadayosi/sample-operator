@@ -1,0 +1,21 @@
+apiVersion: sample.tadayosi.github.io/v1alpha1
+kind: Flow
+metadata:
+  name: flow-sample
+spec:
+  dsl:
+    from:
+      uri: "timer:tick"
+      parameters:
+        period: "5000"
+      steps:
+        - setBody:
+            expression:
+              constant:
+                expression: "Hello Yaml !!!"
+        - transform:
+            expression:
+              simple:
+                expression: "${body.toUpperCase()}"
+        - to:
+            uri: "log:info"

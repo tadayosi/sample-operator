@@ -8,6 +8,32 @@ rules:
 - apiGroups:
   - sample.tadayosi.github.io
   resources:
+  - flows
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - sample.tadayosi.github.io
+  resources:
+  - flows/finalizers
+  verbs:
+  - update
+- apiGroups:
+  - sample.tadayosi.github.io
+  resources:
+  - flows/status
+  verbs:
+  - get
+  - patch
+  - update
+- apiGroups:
+  - sample.tadayosi.github.io
+  resources:
   - hellos
   verbs:
   - create

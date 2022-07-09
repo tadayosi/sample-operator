@@ -16,4 +16,13 @@ resources:
   kind: Hello
   path: github.com/tadayosi/sample-operator/api/v1alpha1
   version: v1alpha1
+- api:
+    crdVersion: v1
+    namespaced: true
+  controller: true
+  domain: tadayosi.github.io
+  group: sample
+  kind: Flow
+  path: github.com/tadayosi/sample-operator/api/v1alpha1
+  version: v1alpha1
 version: "3"
