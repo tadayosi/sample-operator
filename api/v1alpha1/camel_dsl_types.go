@@ -2328,14 +2328,14 @@ type OrgApacheCamelModelRouteContextRefDefinition struct {
 
 // OrgApacheCamelModelRouteDefinition
 type OrgApacheCamelModelRouteDefinition struct {
-	AutoStartup          bool                               `json:"autoStartup,omitempty"`
-	Description          string                             `json:"description,omitempty"`
-	From                 *OrgApacheCamelModelFromDefinition `json:"from"`
-	Group                string                             `json:"group,omitempty"`
-	Id                   string                             `json:"id,omitempty"`
-	Precondition         string                             `json:"precondition,omitempty"`
-	RouteConfigurationId string                             `json:"routeConfigurationId,omitempty"`
-	StreamCaching        bool                               `json:"streamCaching,omitempty"`
+	AutoStartup          bool     `json:"autoStartup,omitempty"`
+	Description          string   `json:"description,omitempty"`
+	From                 *RawStep `json:"from"`
+	Group                string   `json:"group,omitempty"`
+	Id                   string   `json:"id,omitempty"`
+	Precondition         string   `json:"precondition,omitempty"`
+	RouteConfigurationId string   `json:"routeConfigurationId,omitempty"`
+	StreamCaching        bool     `json:"streamCaching,omitempty"`
 }
 
 // OrgApacheCamelModelRouteTemplateBeanDefinition

@@ -5760,7 +5760,7 @@ func (in *OrgApacheCamelModelRouteDefinition) DeepCopyInto(out *OrgApacheCamelMo
 	*out = *in
 	if in.From != nil {
 		in, out := &in.From, &out.From
-		*out = new(OrgApacheCamelModelFromDefinition)
+		*out = new(RawStep)
 		(*in).DeepCopyInto(*out)
 	}
 }
