@@ -14,4 +14,4 @@ data:
       resourceName: 3a787bb4.tadayosi.github.io
 kind: ConfigMap
 metadata:
-  name: operator-manager-config
+  name: sample-operator-manager-config

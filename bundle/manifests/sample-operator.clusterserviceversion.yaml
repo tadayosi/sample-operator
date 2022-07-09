@@ -60,7 +60,7 @@ metadata:
     capabilities: Basic Install
     operators.operatorframework.io/builder: operator-sdk-v1.22.0
     operators.operatorframework.io/project_layout: go.kubebuilder.io/v3
-  name: operator.v0.0.1
+  name: sample-operator.v0.0.1
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -149,11 +149,11 @@ spec:
           - subjectaccessreviews
           verbs:
           - create
-        serviceAccountName: operator-controller-manager
+        serviceAccountName: sample-operator-controller-manager
       deployments:
       - label:
           control-plane: controller-manager
-        name: operator-controller-manager
+        name: sample-operator-controller-manager
         spec:
           replicas: 1
           selector:
@@ -219,7 +219,7 @@ spec:
                   allowPrivilegeEscalation: false
               securityContext:
                 runAsNonRoot: true
-              serviceAccountName: operator-controller-manager
+              serviceAccountName: sample-operator-controller-manager
               terminationGracePeriodSeconds: 10
       permissions:
       - rules:
@@ -254,7 +254,7 @@ spec:
           verbs:
           - create
           - patch
-        serviceAccountName: operator-controller-manager
+        serviceAccountName: sample-operator-controller-manager
     strategy: deployment
   installModes:
   - supported: false
@@ -268,8 +268,11 @@ spec:
   keywords:
   - sample
   links:
-  - name: Operator
-    url: https://operator.domain
+  - name: Sample Operator
+    url: https://github.com/tadayosi/sample-operator
+  maintainers:
+  - email: sato.tadayoshi@gmail.com
+    name: Tadayoshi Sato
   maturity: alpha
   provider:
     name: Tadayoshi Sato

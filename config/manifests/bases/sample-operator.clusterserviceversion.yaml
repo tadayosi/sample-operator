@@ -4,7 +4,7 @@ metadata:
   annotations:
     alm-examples: '[]'
     capabilities: Basic Install
-  name: operator.v0.0.0
+  name: sample-operator.v0.0.0
   namespace: placeholder
 spec:
   apiservicedefinitions: {}
@@ -41,8 +41,11 @@ spec:
   keywords:
   - sample
   links:
-  - name: Operator
-    url: https://operator.domain
+  - name: Sample Operator
+    url: https://github.com/tadayosi/sample-operator
+  maintainers:
+  - email: sato.tadayoshi@gmail.com
+    name: Tadayoshi Sato
   maturity: alpha
   provider:
     name: Tadayoshi Sato
